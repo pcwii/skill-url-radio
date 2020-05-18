@@ -14,6 +14,7 @@ from mycroft.util.parse import match_one
 from mycroft.util.log import getLogger
 
 from mycroft.util.log import getLogger
+from mycroft.util.log import LOG
 
 sys.path.append(abspath(dirname(__file__)))
 
@@ -31,10 +32,10 @@ class URLRadio(CommonPlaySkill):
             self.channel_list = json.load(f)
 
         #self.channel_list = json.load(data)
-        logger.info(self.channel_list)
+        lOG.info(self.channel_list)
 
     def initialize(self):
-        logger.info('initializing URLRadio')
+        LOG.info('initializing URLRadio')
         self.load_data_files(dirname(__file__))
         super(URLRadio, self).initialize()
 #        for c in self.url.channels.keys():
@@ -56,7 +57,7 @@ class URLRadio(CommonPlaySkill):
         """
             The method is invoked by the PlayBackControlSkill.
         """
-        self.log.info('URLRadio received the following phrase: ' + phrase)
+        LOG.info('URLRadio received the following phrase: ' + phrase)
         match, confidence = match_one(phrase, self.channel_list)
         # If the confidence is high enough return a match
         if confidence > 0.5:
@@ -71,7 +72,7 @@ class URLRadio(CommonPlaySkill):
             Called by the playback control skill to start playback if the
             skill is selected (has the best match level)
         """
-        self.log.info('CPKodi Skill received the following phrase and Data: ' + phrase + ' ' + data['track'])
+        LOG.info('URLRadio Skill received the following phrase and Data: ' + phrase + ' ' + data['track'])
 #        self.speak_dialog('now.playing', data={"channel": play_request[0], "category": play_request[1]},
 #                          expect_response=False)
         url = data['track']
