@@ -52,14 +52,15 @@ class URLRadio(CommonPlaySkill):
             The method is invoked by the PlayBackControlSkill.
         """
         self.log.info('URLRadio received the following phrase: ' + phrase)
-        match, confidence = match_one(phrase, self.channel_list)
+        #match, confidence = match_one(phrase, self.channel_list)
         # If the confidence is high enough return a match
-        self.log.info("URLRadio returned: " +str(match), str(confidence))
-        if confidence > 0.5:
-            return match, CPSMatchLevel.TITLE, {"track": match}
+        for name, url in self.channel_list:  # loop through every interval
+            self.log.info("URLRadio returned: " + str(name), str(url))
+        #if confidence > 0.5:
+            #return match, CPSMatchLevel.TITLE, {"track": match}
         # Otherwise return None
-        else:
-            return None
+        #else:
+        return None
 
 
     def CPS_start(self, phrase, data):
