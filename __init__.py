@@ -1,5 +1,5 @@
 ﻿import sys
-from os.path import dirname, abspath
+from os.path import dirname, abspath, join
 import time
 import subprocess
 import json
@@ -25,12 +25,8 @@ class URLRadio(CommonPlaySkill):
     def __init__(self):
         super(URLRadio, self).__init__('URL Radio')
         self.process = None
-#        self.regexes = {}
-#        file_system = FileSystemAccess(str(self.skill_id))
-#        file = file_system.open("url_list.json", "r")
-#        data = file.read()
-#        file.close()
-        with open(join(self.file_system.path, 'url_list.json')) as f:
+        file_name = 'url_list.json'
+        with open(join(self.file_system.path, file_name)) as f:
             self.channel_list = json.load(f)
 
         #self.channel_list = json.load(data)
