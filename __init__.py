@@ -16,7 +16,6 @@ from mycroft.util.log import getLogger
 from mycroft.util.log import getLogger
 
 sys.path.append(abspath(dirname(__file__)))
-url = __import__('url')
 
 logger = getLogger(__name__)
 
