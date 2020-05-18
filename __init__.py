@@ -26,7 +26,8 @@ class URLRadio(CommonPlaySkill):
         super(URLRadio, self).__init__('URL Radio')
         self.process = None
         file_name = 'url_list.json'
-        with open(join(self.file_system.path, file_name)) as f:
+        skill_path = "/opt/mycroft/skills/skill-url-radio.pcwii"
+        with open(join(skill_path, file_name)) as f:
             self.channel_list = json.load(f)
 
         #self.channel_list = json.load(data)
