@@ -13,14 +13,11 @@ from mycroft.util.parse import match_one
 #from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
 
-from mycroft.util.log import getLogger
-from mycroft.util.log import LOG
+#from mycroft.util.log import getLogger
+#from mycroft.util.log import LOG
 
-sys.path.append(abspath(dirname(__file__)))
+#sys.path.append(abspath(dirname(__file__)))
 
-logger = getLogger(__name__)
-
-__author__ = 'pcwii20200517'
 
 class URLRadio(CommonPlaySkill):
     def __init__(self):
@@ -29,10 +26,10 @@ class URLRadio(CommonPlaySkill):
         skill_path = "/opt/mycroft/skills/skill-url-radio.pcwii"
         with open(join(skill_path, file_name)) as f:
             self.channel_list = json.load(f)
-        lOG.info(str(self.channel_list))
+        self.log.info(str(self.channel_list))
 
     def initialize(self):
-        LOG.info('initializing URLRadio')
+        self.log.info('initializing URLRadio')
         self.load_data_files(dirname(__file__))
         super(URLRadio, self).initialize()
 #        for c in self.url.channels.keys():
@@ -54,7 +51,7 @@ class URLRadio(CommonPlaySkill):
         """
             The method is invoked by the PlayBackControlSkill.
         """
-        LOG.info('URLRadio received the following phrase: ' + phrase)
+        self.log.info('URLRadio received the following phrase: ' + phrase)
         match, confidence = match_one(phrase, self.channel_list)
         # If the confidence is high enough return a match
         if confidence > 0.5:
@@ -69,7 +66,7 @@ class URLRadio(CommonPlaySkill):
             Called by the playback control skill to start playback if the
             skill is selected (has the best match level)
         """
-        LOG.info('URLRadio Skill received the following phrase and Data: ' + phrase + ' ' + data['track'])
+        self.log.info('URLRadio Skill received the following phrase and Data: ' + phrase + ' ' + data['track'])
 #        self.speak_dialog('now.playing', data={"channel": play_request[0], "category": play_request[1]},
 #                          expect_response=False)
         url = data['track']
