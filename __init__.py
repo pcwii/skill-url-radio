@@ -25,20 +25,16 @@ class URLRadio(CommonPlaySkill):
     def __init__(self):
         super(URLRadio, self).__init__('URL Radio')
         self.process = None
-        self.regexes = {}
-        file_system = FileSystemAccess(str(self.skill_id))
-        file = file_system.open("url_list.json", "r")
-        data = file.read()
-        file.close()
-        self.channel_list = json.load(data)
+#        self.regexes = {}
+#        file_system = FileSystemAccess(str(self.skill_id))
+#        file = file_system.open("url_list.json", "r")
+#        data = file.read()
+#        file.close()
+        with open(join(self.file_system.path, 'url_list.json')) as f:
+            self.channel_list = json.load(f)
+
+        #self.channel_list = json.load(data)
         logger.info(self.channel_list)
-
-    def load_data_file(self, filename, mode="r"):
-
-        file = file_system.open(filename, mode)
-        data = file.read()
-        file.close()
-        return data
 
     def initialize(self):
         logger.info('initializing URLRadio')
