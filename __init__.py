@@ -25,7 +25,6 @@ __author__ = 'pcwii20200517'
 class URLRadio(CommonPlaySkill):
     def __init__(self):
         super(URLRadio, self).__init__('URL Radio')
-        self.url = url.URLRadio()
         self.process = None
         self.regexes = {}
         with open("url_list.json", "r") as channel_file:
