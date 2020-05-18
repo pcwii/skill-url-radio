@@ -25,12 +25,10 @@ __author__ = 'pcwii20200517'
 class URLRadio(CommonPlaySkill):
     def __init__(self):
         super(URLRadio, self).__init__('URL Radio')
-        self.process = None
         file_name = 'url_list.json'
         skill_path = "/opt/mycroft/skills/skill-url-radio.pcwii"
         with open(join(skill_path, file_name)) as f:
             self.channel_list = json.load(f)
-        #self.channel_list = json.load(data)
         lOG.info(str(self.channel_list))
 
     def initialize(self):
