@@ -8,6 +8,7 @@ import json
 from mycroft.filesystem import FileSystemAccess
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 from mycroft.audio import wait_while_speaking
+from mycroft.skills.audioservice import AudioService
 
 from mycroft.util.log import getLogger
 
@@ -20,11 +21,14 @@ class URLRadio(CommonPlaySkill):
         with open(join(skill_path, file_name)) as f:
             self.channel_list = json.load(f)
         self.log.info(str(self.channel_list))
+        self.audio_service = ""
 
     def initialize(self):
         self.log.info('initializing URLRadio')
         self.load_data_files(dirname(__file__))
+        self.audio_service = AudioService(self.bus)
         super(URLRadio, self).initialize()
+
 
 
     def CPS_match_query_phrase(self, phrase):
@@ -51,7 +55,7 @@ class URLRadio(CommonPlaySkill):
         self.log.info('URLRadio Skill received the following phrase and Data: ' + phrase + ' ' + str(data))
         self.speak_dialog('now.playing', data={"channel": data["name"]}, expect_response=False)
         url = str(data["url"])
-        self.audioservice.play(url)  #
+        self.audio_service.play(url)  #
         pass
 
 

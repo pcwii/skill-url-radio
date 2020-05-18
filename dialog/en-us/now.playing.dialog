@@ -1,1 +1,4 @@
-You are listening to {{channel}}.
+You are listening to, {{channel}}.
+{{channel}}, is now playing.
+Playing, {{channel}}.
+Now playing, {{channel}}
