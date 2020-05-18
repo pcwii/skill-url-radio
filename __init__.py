@@ -78,7 +78,6 @@ class URLRadio(CommonPlaySkill):
         self.log.info('URLRadio Skill received the following phrase and Data: ' + phrase + ' ' + str(data))
 #        self.speak_dialog('now.playing', data={"channel": play_request[0], "category": play_request[1]},
 #                          expect_response=False)
-        url = data['track']
 #        self.audioservice.play(url)  #
         pass
 
