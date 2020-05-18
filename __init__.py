@@ -54,6 +54,7 @@ class URLRadio(CommonPlaySkill):
         self.log.info('URLRadio received the following phrase: ' + phrase)
         match, confidence = match_one(phrase, self.channel_list)
         # If the confidence is high enough return a match
+        self.log.info("URLRadio returned: " +str(match), str(confidence))
         if confidence > 0.5:
             return match, CPSMatchLevel.TITLE, {"track": match}
         # Otherwise return None
