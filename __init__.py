@@ -1,24 +1,15 @@
 ﻿import sys
 from os.path import dirname, abspath, join
 
-
 import time
 import subprocess
 import json
 
 from mycroft.filesystem import FileSystemAccess
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
-from mycroft.util.parse import match_one
+from mycroft.audio import wait_while_speaking
 
-#import re
-#from adapt.intent import IntentBuilder
-#from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
-
-#from mycroft.util.log import getLogger
-#from mycroft.util.log import LOG
-
-#sys.path.append(abspath(dirname(__file__)))
 
 
 class URLRadio(CommonPlaySkill):
@@ -34,19 +25,6 @@ class URLRadio(CommonPlaySkill):
         self.log.info('initializing URLRadio')
         self.load_data_files(dirname(__file__))
         super(URLRadio, self).initialize()
-#        for c in self.url.channels.keys():
-#            self.register_vocabulary(c, 'ChannelKeyword')
-#        intent = IntentBuilder('PlayChannelIntent' + self.name)\
-#            .require('PlayKeyword')\
-#            .require('ChannelKeyword')\
-#            .build()
-#        self.register_intent(intent, self.handle_play_channel)
-#        intent = IntentBuilder('PlayFromIntent' + self.name)\
-#            .require('PlayKeyword')\
-#            .require('ChannelKeyword')\
-#            .require('NameKeyword')\
-#            .build()
-#        self.register_intent(intent, self.handle_play_channel)
 
 
     def CPS_match_query_phrase(self, phrase):
@@ -62,11 +40,6 @@ class URLRadio(CommonPlaySkill):
                 break
             else:
                 print("Station Not Found, Searching!")
-
-        #if confidence > 0.5:
-            #return match, CPSMatchLevel.TITLE, {"track": match}
-        # Otherwise return None
-        #else:
         return None
 
 
@@ -76,9 +49,9 @@ class URLRadio(CommonPlaySkill):
             skill is selected (has the best match level)
         """
         self.log.info('URLRadio Skill received the following phrase and Data: ' + phrase + ' ' + str(data))
-#        self.speak_dialog('now.playing', data={"channel": play_request[0], "category": play_request[1]},
-#                          expect_response=False)
-#        self.audioservice.play(url)  #
+        self.speak_dialog('now.playing', data={"channel": data["name"]}, expect_response=False)
+        url = str(data["url"])
+        self.audioservice.play(url)  #
         pass
 
 
