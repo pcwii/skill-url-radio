@@ -54,7 +54,7 @@ class URLRadio(CommonPlaySkill):
         self.log.info('URLRadio received the following phrase: ' + phrase)
         #match, confidence = match_one(phrase, self.channel_list)
         # If the confidence is high enough return a match
-        for name, url in self.channel_list:  # loop through every interval
+        for name, url in self.channel_list["stations"]:  # loop through every interval
             self.log.info("URLRadio returned: " + str(name), str(url))
         #if confidence > 0.5:
             #return match, CPSMatchLevel.TITLE, {"track": match}
