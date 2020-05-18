@@ -4,7 +4,7 @@ import time
 import subprocess
 import json
 
-
+from mycroft.filesystem import FileSystemAccess
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 from mycroft.util.parse import match_one
 
@@ -21,14 +21,24 @@ logger = getLogger(__name__)
 
 __author__ = 'pcwii20200517'
 
-
 class URLRadio(CommonPlaySkill):
     def __init__(self):
         super(URLRadio, self).__init__('URL Radio')
         self.process = None
         self.regexes = {}
-        with open("url_list.json", "r") as channel_file:
-            self.channel_list = json.load(channel_file)
+        file_system = FileSystemAccess(str(self.skill_id))
+        file = file_system.open("url_list.json", "r")
+        data = file.read()
+        file.close()
+        self.channel_list = json.load(data)
+        logger.info(self.channel_list)
+
+    def load_data_file(self, filename, mode="r"):
+
+        file = file_system.open(filename, mode)
+        data = file.read()
+        file.close()
+        return data
 
     def initialize(self):
         logger.info('initializing URLRadio')
