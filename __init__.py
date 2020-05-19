@@ -9,6 +9,7 @@ from mycroft.filesystem import FileSystemAccess
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 from mycroft.audio import wait_while_speaking
 from mycroft.skills.audioservice import AudioService
+from mycroft.audio.services.vlc import VlcService
 
 from mycroft.util.log import getLogger
 
@@ -21,13 +22,14 @@ class URLRadio(CommonPlaySkill):
         with open(join(skill_path, file_name)) as f:
             self.channel_list = json.load(f)
         self.log.info(str(self.channel_list))
-        self.audio_service = ""
+        self.mediaplayer = VlcService(config={'low_volume': 10, 'duck': True})
+        self.audio_state = 'stopped'  # 'playing', 'stopped'
+
 
     def initialize(self):
-        self.log.info('initializing URLRadio')
-        self.load_data_files(dirname(__file__))
-        self.audio_service = AudioService(self.bus)
-        super(URLRadio, self).initialize()
+            self.log.info('initializing URLRadio')
+            self.load_data_files(dirname(__file__))
+            super(URLRadio, self).initialize()
 
 
 
@@ -54,10 +56,21 @@ class URLRadio(CommonPlaySkill):
         """
         self.log.info('URLRadio Skill received the following phrase and Data: ' + phrase + ' ' + str(data))
         self.speak_dialog('now.playing', data={"channel": data["name"]}, expect_response=False)
+        wait_while_speaking
         url = str(data["url"])
-        #self.CPS_play(url, 'audio/mpeg')
-        self.audio_service.play(url, 'audio/mpeg')  #
+        self.mediaplayer.add_list(url)
+        self.audio_state = 'playing'
+        self.mediaplayer.play()
         pass
+
+
+    def stop(self):
+        if self.audio_state == 'playing':
+            self.mediaplayer.stop()
+            self.mediaplayer.clear_list()
+            LOG.debug('Stopping stream')
+        self.audio_state = 'stopped'
+        return True
 
 
 def create_skill():
